@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Post a Job </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    {% include 'navbar.html' %}
+
+    <!-- Header -->
+    <div class="bg-primary text-white py-4">
+        <div class="container">
+            <h2 class="fw-bold mb-1">Post a Job</h2>
+            <p class="mb-0">
+                Share a job or internship opportunity with candidates.
+            </p>
+        </div>
+    </div>
+
+    <!-- Job Form -->
+    <div class="container py-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-8 col-md-10">
+
+                <div class="card border-0 shadow-sm rounded-4">
+
+                    <div class="card-body p-4 p-md-5">
+
+                        <h4 class="fw-bold mb-4">Job Details</h4>
+
+                        <form method="POST">
+
+                            <!-- Job Title -->
+                            <div class="mb-3">
+                                <label for="title" class="form-label fw-semibold">
+                                    Job Title
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="title"
+                                    name="title"
+                                    placeholder="e.g. Python Developer"
+                                    required>
+                            </div>
+
+                            <!-- Company -->
+                            <div class="mb-3">
+                                <label for="company" class="form-label fw-semibold">
+                                    Company
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="company"
+                                    name="company"
+                                    placeholder="Enter company name"
+                                    required>
+                            </div>
+
+                            <!-- Location -->
+                            <div class="mb-3">
+                                <label for="location" class="form-label fw-semibold">
+                                    Location
+                                </label>
+
+                                <input
+                                    type="text"
+                                    class="form-control"
+                                    id="location"
+                                    name="location"
+                                    placeholder="e.g. Rajkot or Remote">
+                            </div>
+
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label fw-semibold">
+                                    Job Description
+                                </label>
+
+                                <textarea
+                                    class="form-control"
+                                    id="description"
+                                    name="description"
+                                    rows="5"
+                                    placeholder="Describe the role, responsibilities, and requirements"></textarea>
+                            </div>
+
+                            <!-- Job Type -->
+                            <div class="mb-4">
+                                <label for="job_type" class="form-label fw-semibold">
+                                    Job Type
+                                </label>
+
+                                <select
+                                    class="form-select"
+                                    id="job_type"
+                                    name="job_type">
+
+                                    <option value="Full-time">Full-time</option>
+                                    <option value="Part-time">Part-time</option>
+                                    <option value="Internship">Internship</option>
+                                    <option value="Remote">Remote</option>
+
+                                </select>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex flex-column flex-sm-row gap-2">
+
+                                <button type="submit"
+                                        class="btn btn-primary flex-fill">
+                                    Post Job
+                                </button>
+
+                                <a href="{{ url_for('recruiter_dashboard') }}"
+                                   class="btn btn-outline-secondary flex-fill">
+                                    Cancel
+                                </a>
+
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

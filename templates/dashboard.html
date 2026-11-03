@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard - LinkedIn</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    {% include 'navbar.html' %}
+
+    <div class="container mt-4">
+
+        <div class="row g-4">
+
+            <!-- Left Sidebar -->
+            <div class="col-md-3">
+
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body text-center">
+                        <h4>LinkedIn</h4>
+                        <p class="text-muted">Your professional network</p>
+
+                        <a href="{{ url_for('profile') }}"
+                           class="btn btn-outline-primary w-100 mb-2">
+                            My Profile
+                        </a>
+
+                        <a href="{{ url_for('logout') }}"
+                           class="btn btn-outline-danger w-100">
+                            Logout
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-6">
+
+                <!-- Search Users -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+
+                        <h5 class="mb-3">Search Users</h5>
+
+                        <form action="{{ url_for('search') }}" method="GET">
+                            <div class="input-group">
+                                <input type="text"
+                                       name="q"
+                                       class="form-control"
+                                       placeholder="Search users..."
+                                       required>
+
+                                <button type="submit"
+                                        class="btn btn-primary">
+                                    Search
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <!-- Create Post -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body">
+
+                        <h5 class="mb-3">Create a Post</h5>
+
+                        <form action="/create-post"
+                              method="POST"
+                              enctype="multipart/form-data">
+
+                            <textarea name="content"
+                                      class="form-control mb-3"
+                                      rows="3"
+                                      placeholder="What do you want to share?"
+                                      required></textarea>
+
+                            <input type="file"
+                                   name="image"
+                                   class="form-control mb-3"
+                                   accept="image/*">
+
+                            <button type="submit"
+                                    class="btn btn-primary w-100">
+                                Create Post
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+
+                <!-- Feed -->
+                <h4 class="mb-3">Your Feed</h4>
+
+                {% for post in posts %}
+
+                <div class="card shadow-sm mb-4">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">{{ post[1] }}</h5>
+
+                        <p class="card-text">{{ post[2] }}</p>
+
+                        {% if post[3] %}
+                        <img src="{{ url_for('static', filename='uploads/' + post[3]) }}"
+                             class="img-fluid rounded mb-3"
+                             alt="Post image">
+                        {% endif %}
+
+                        <p class="text-muted small">{{ post[4] }}</p>
+
+                        <hr>
+
+                        <!-- Like Count -->
+                        <p>❤️ {{ post[5] }} Likes</p>
+
+                        <!-- Like Button -->
+                        <form action="{{ url_for('like_post') }}"
+                              method="POST"
+                              class="mb-3">
+
+                            <input type="hidden"
+                                   name="post_id"
+                                   value="{{ post[0] }}">
+
+                            <button type="submit"
+                                    class="btn btn-outline-primary btn-sm">
+                                ❤️ Like
+                            </button>
+
+                        </form>
+
+                        <!-- Comment Form -->
+                        <form action="{{ url_for('add_comment') }}"
+                              method="POST"
+                              class="mb-3">
+
+                            <input type="hidden"
+                                   name="post_id"
+                                   value="{{ post[0] }}">
+
+                            <div class="input-group">
+                                <input type="text"
+                                       name="comment"
+                                       class="form-control"
+                                       placeholder="Write a comment..."
+                                       required>
+
+                                <button type="submit"
+                                        class="btn btn-primary">
+                                    Comment
+                                </button>
+                            </div>
+
+                        </form>
+
+                        <!-- Show Comments -->
+                        <h6>Comments</h6>
+
+                        {% for comment in comments %}
+
+                            {% if comment[0] == post[0] %}
+
+                            <div class="bg-light rounded p-2 mb-2">
+                                <b>{{ comment[1] }}</b>
+                                <p class="mb-1">{{ comment[2] }}</p>
+                                <small class="text-muted">
+                                    {{ comment[3] }}
+                                </small>
+                            </div>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                        <!-- Delete Post -->
+                        <a href="{{ url_for('delete_post', post_id=post[0]) }}"
+                           class="btn btn-outline-danger btn-sm mt-2">
+                            Delete Post
+                        </a>
+
+                    </div>
+                </div>
+
+                {% else %}
+
+                <div class="alert alert-info">
+                    No posts available yet. Create your first post!
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="col-md-3">
+
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body">
+
+                        <h5>Quick Links</h5>
+
+                        <a href="{{ url_for('profile') }}"
+                           class="d-block mb-2">
+                            View Profile
+                        </a>
+
+                        <a href="{{ url_for('notifications') }}"
+                           class="d-block">
+                            Notifications
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

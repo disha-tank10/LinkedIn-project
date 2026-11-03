@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Job Applicants </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    {% include 'navbar.html' %}
+
+    <!-- Page Header -->
+    <div class="bg-primary text-white py-4">
+        <div class="container">
+            <h2 class="fw-bold mb-1">Job Applicants</h2>
+            <p class="mb-0">Review applications and update applicant status.</p>
+        </div>
+    </div>
+
+    <div class="container py-4">
+
+        <!-- Job Information -->
+        <div class="card border-0 shadow-sm rounded-3 mb-4">
+            <div class="card-body p-4">
+                <p class="text-muted mb-1">Applications for</p>
+                <h3 class="fw-bold text-primary mb-0">
+                    {{ job[1] }}
+                </h3>
+            </div>
+        </div>
+
+        {% if applicants %}
+
+            <div class="row g-4">
+
+                {% for applicant in applicants %}
+
+                    <div class="col-12 col-md-6">
+
+                        <div class="card border-0 shadow-sm rounded-3 h-100">
+
+                            <div class="card-body p-4">
+
+                                <h5 class="fw-bold mb-3">
+                                    {{ applicant[0] }}
+                                </h5>
+
+                                <p class="mb-2">
+                                    <strong>Email:</strong>
+                                    {{ applicant[1] }}
+                                </p>
+                                <a href="{{ url_for('view_applicant_profile',
+                                                    job_id=job[0],
+                                                    student_id=applicant[5]) }}"
+                                class="btn btn-outline-primary mb-3">
+                                    👤 View Full Profile
+                                </a>
+
+                                <p class="mb-2">
+                                    <strong>Current Status:</strong>
+
+                                    {% if applicant[2] == 'Accepted' %}
+                                        <span class="badge bg-success">
+                                            Accepted
+                                        </span>
+                                    {% elif applicant[2] == 'Rejected' %}
+                                        <span class="badge bg-danger">
+                                            Rejected
+                                        </span>
+                                    {% else %}
+                                        <span class="badge bg-secondary">
+                                            {{ applicant[2] or 'Pending' }}
+                                        </span>
+                                    {% endif %}
+                                </p>
+
+                                <p class="text-muted small mb-4">
+                                    <strong>Applied At:</strong>
+                                    {{ applicant[3] }}
+                                </p>
+
+                                <hr>
+
+                                <!-- Update Application Status -->
+                                <form method="POST"
+                                      action="{{ url_for('update_application',
+                                                        job_id=job[0],
+                                                        application_id=applicant[4]) }}">
+
+                                    <label for="status-{{ applicant[4] }}"
+                                           class="form-label fw-semibold">
+                                        Update Status
+                                    </label>
+
+                                    <select name="status"
+                                            id="status-{{ applicant[4] }}"
+                                            class="form-select mb-3"
+                                            required>
+
+                                        <option value="Accepted"
+                                            {% if applicant[2] == 'Accepted' %}selected{% endif %}>
+                                            Accept
+                                        </option>
+
+                                        <option value="Rejected"
+                                            {% if applicant[2] == 'Rejected' %}selected{% endif %}>
+                                            Reject
+                                        </option>
+
+                                    </select>
+
+                                    <button type="submit"
+                                            class="btn btn-primary w-100">
+                                        Update Status
+                                    </button>
+
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            <!-- Empty State -->
+            <div class="card border-0 shadow-sm rounded-4 text-center p-5">
+
+                <div class="mb-3">
+                    <span class="fs-1">👥</span>
+                </div>
+
+                <h4 class="fw-bold">No Applicants Yet</h4>
+
+                <p class="text-muted mb-0">
+                    No students have applied for this job yet.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+        <!-- Back Button -->
+        <div class="mt-4">
+            <a href="{{ url_for('recruiter_dashboard') }}"
+               class="btn btn-outline-primary">
+                ← Back to Recruiter Dashboard
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Search Users </title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    {% include 'navbar.html' %}
+
+    <!-- Page Header -->
+    <div class="bg-primary text-white py-4">
+        <div class="container">
+            <h2 class="fw-bold mb-1">Search People</h2>
+            <p class="mb-0">
+                Find people and explore their profiles on Linkedin.
+            </p>
+        </div>
+    </div>
+
+    <div class="container py-4">
+
+        <!-- Search Form -->
+        <div class="card border-0 shadow-sm rounded-4 mb-4">
+
+            <div class="card-body p-4">
+
+                <form action="{{ url_for('search') }}"
+                      method="GET">
+
+                    <label for="q" class="form-label fw-semibold">
+                        Search by name or email
+                    </label>
+
+                    <div class="input-group">
+
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="q"
+                            name="q"
+                            placeholder="Enter a name or email..."
+                            value="{{ search_text }}"
+                            required>
+
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Search
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- Search Results -->
+        {% if users %}
+
+            <h4 class="fw-bold mb-3">Search Results</h4>
+
+            <div class="row g-3">
+
+                {% for user in users %}
+
+                    <div class="col-12 col-md-6">
+
+                        <div class="card border-0 shadow-sm rounded-3 h-100">
+
+                            <div class="card-body p-4">
+
+                                <div class="d-flex align-items-center gap-3 mb-3">
+
+                                    <div class="rounded-circle bg-primary text-white
+                                                d-flex align-items-center justify-content-center"
+                                         style="width: 55px; height: 55px;
+                                                min-width: 55px; font-size: 22px;">
+
+                                        {{ user[1][0] | upper }}
+
+                                    </div>
+
+                                    <div>
+                                        <h5 class="fw-bold mb-1">
+                                            {{ user[1] }}
+                                        </h5>
+
+                                        <p class="text-muted mb-0">
+                                            {{ user[2] }}
+                                        </p>
+                                    </div>
+
+                                </div>
+
+                                <a href="{{ url_for('user_profile', user_id=user[0]) }}"
+                                   class="btn btn-outline-primary w-100">
+                                    View Profile
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+        {% else %}
+
+            {% if search_text %}
+
+                <div class="card border-0 shadow-sm rounded-4 text-center p-5">
+
+                    <h4 class="fw-bold">No Users Found</h4>
+
+                    <p class="text-muted mb-0">
+                        Try searching with another name or email address.
+                    </p>
+
+                </div>
+
+            {% else %}
+
+                <div class="text-center py-5">
+
+                    <h5 class="fw-bold">Find People</h5>
+
+                    <p class="text-muted">
+                        Enter a name or email above to discover users.
+                    </p>
+
+                </div>
+
+            {% endif %}
+
+        {% endif %}
+
+        <!-- Back Button -->
+        <div class="mt-4">
+            <a href="{{ url_for('dashboard') }}"
+               class="btn btn-outline-secondary">
+                ← Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+
+</body>
+</html>

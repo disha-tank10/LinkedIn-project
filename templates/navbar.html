@@ -1,0 +1,100 @@
+
+{% set role = session.get('role', '')|lower|trim %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+
+        <!-- Website Logo -->
+        <a class="navbar-brand fw-bold"
+           href="{{ url_for('dashboard') }}">
+            Linkedin
+        </a>
+
+        <!-- Mobile Menu -->
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#mainNavbar"
+                aria-controls="mainNavbar"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="mainNavbar">
+
+            <ul class="navbar-nav ms-auto">
+
+                <!-- Home: Both Student and Recruiter -->
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('dashboard') }}">
+                        Home
+                    </a>
+                </li>
+
+                <!-- My Profile -->
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('profile') }}">
+                        My Profile
+                    </a>
+                </li>
+
+                <!-- Jobs: Both Student and Recruiter -->
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('jobs') }}">
+                        Jobs
+                    </a>
+                </li>
+
+                <!-- Only Student / Job Seeker -->
+                {% if role in ['student', 'job seeker',
+                               'student/job seeker', 'job_seeker'] %}
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('my_applications') }}">
+                        My Applications
+                    </a>
+                </li>
+
+                {% endif %}
+
+                <!-- Only Recruiter / Company -->
+                {% if role in ['recruiter', 'company',
+                               'recruiter/company'] %}
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('recruiter_dashboard') }}">
+                        My Posted Jobs
+                    </a>
+                </li>
+
+                {% endif %}
+
+                <!-- Notifications -->
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('notifications') }}">
+                        🔔 Notifications
+                    </a>
+                </li>
+
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{{ url_for('logout') }}">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

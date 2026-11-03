@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LinkedIn</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+   
+    <nav class="navbar">
+
+        <div class="logo">
+           LinkedIn
+        </div>
+
+        <div class="nav-links">
+            
+            <a href="{{ url_for('dashboard') }}">Home</a>
+            <a href="{{ url_for('jobs') }}">Jobs</a>
+            <a href="{{ url_for('my_applications') }}">My Applications</a>
+            <a href="{{ url_for('profile') }}">Profile</a>
+            <a href="{{ url_for('notifications') }}">Notifications</a>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        </div>
+
+    </nav>
+
+    <main>
+
+        <h1>Welcome to LinkedIn</h1>
+
+        <p>
+            A simple professional networking website.
+        </p>
+
+    </main>
+
+</body>
+</html>
